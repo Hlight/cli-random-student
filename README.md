@@ -18,3 +18,8 @@ alias callRandom='node ~/bootcamp-random-student/random-student.js'
 
 Script keeps track of history using the `random-student.log` file.
 Once all students have been called the history is cleared and the process starts over.
+
+
+## Preview
+
+<img src="ss.png" />
