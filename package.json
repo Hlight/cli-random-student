@@ -1,0 +1,23 @@
+{
+  "name": "bootcamp-random-student",
+  "version": "1.0.0",
+  "description": "Call a random student until all students have been called",
+  "main": "random-student.js",
+  "dependencies": {
+    "gradient-string": "^1.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hlight/class-call-random-student.git"
+  },
+  "author": "Aaron Ostrowsky",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hlight/class-call-random-student/issues"
+  },
+  "homepage": "https://github.com/Hlight/class-call-random-student#readme"
+}
