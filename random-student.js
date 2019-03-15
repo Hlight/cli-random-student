@@ -1,37 +1,51 @@
 
 const fs = require('fs');
 const gradient = require('gradient-string');
-const isResetEnabled = process.argv[2] === 'reset';
+const CFonts = require('cfonts');
 
-const students = [
-  "Andrew Rice",
-  "Catherine Pham",
-  "Auri Robbins-Phillips",
-  "Benjamin Vaagen",
-  "Bryan Kelley",
-  "Delbert Hall",
-  "Derek Ericson",
-  "Gabriel Teotonio",
-  "Joonwoo Choi",
-  "Joshua Manuel",
-  "Julie Mathews",
-  "Justin Graffeo",
-  "Kelsey Beffel",
-  "Lacey Gibbons",
-  "Lisa Leslie",
-  "Mario Rodriguez",
-  "Naomi Woodruff",
-  "Nicole White",
-  "Peter Staker",
-  "Shannon Line",
-  "Sonja Rasmussen",
-  "Stefan Apreutesei",
-  "Tad Ochwat",
-  "Tammy Lee",
-  "Thomas Sulich",
-  "Ethan Mo",
-  "Yin Lee"
-];
+
+const isResetEnabled = process.argv[2] === 'reset';
+const logFile = __dirname + '/random-student.log';
+
+let students = [];
+
+function init() {
+  students = require('../students.js');
+  readHistoryAndCall();
+}
+
+function readHistoryAndCall() {
+  // Call history file.
+  // Read history log on each run.
+  fs.readFile(logFile, 'utf-8', (err, history) => {
+    if (err) throw err;
+    let student = call(history);
+    // console.log();
+      const clrs = [
+        "black",
+        "red",
+        "green",
+        "yellow",
+        "blue",
+        "magenta",
+        "cyan",
+        "white",
+        // "blackBright",
+        "redBright",
+        "greenBright",
+        "yellowBright",
+        "blueBright",
+        "magentaBright",
+        "cyanBright",
+        "whiteBright"
+      ];
+      CFonts.say(student, {
+        colors: [clrs[Math.floor(Math.random() * clrs.length)]]
+      });
+
+
+  })
+}
 
 function getRandom() {
   return students[Math.floor(Math.random() * students.length)];
@@ -50,27 +64,20 @@ function call(history) {
   }
   // Get random student.
   let student = getRandom();
-  // If student has been called and not all students have been called yet.
+  // Skip student if called already, while others haven't been called yet.
   while (called.includes(student) && students.length !== called.length) {
-    // Skip the student because they've been called already.
     console.log(gradient.mind(student + ' is included already!'))
     // Pick a new random student.
     student = getRandom();
   }
-  // called.push(student);
+
   fs.appendFile(logFile, '\n' + student, (err) => {
-    return called;
+    if (err) throw err;
   });
 
   return student;
 }
 
-// Call history file.
-const logFile = __dirname + '/random-student.log';
-// Read history log on each run.
-fs.readFile(logFile, 'utf-8', (err, history) => {
-  console.log(call(history));
-})
+//-------------------------------------------------
 
-
-
+init();
