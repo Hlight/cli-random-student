@@ -64,6 +64,10 @@ const bkgClrs = [
   "whiteBright"
 ];
 
+
+/**
+ * Help - displays available options and exit script.
+ */
 if (isHelpEnabled) {
   console.log('Available Options:')
   console.log('--font random|<font>')
@@ -129,15 +133,23 @@ function callRandom() {
     student = student.match(/\w+\s+[A-Z]/).toString();
   }
   
+  /**
+   * cFonts Options defaults | arguments
+   */
+  // get color here so we can make it the default.
   let randomColor = clrs[Math.floor(Math.random() * clrs.length)];
-  let cfontsOpts = { align: 'left', colors: [randomColor] };
+  // Options for the cfonts module.
+  let cfontsOpts = { 
+    align: 'center', 
+    colors: [randomColor] 
+  };
   
   if (argv.colors) {
     cfontsOpts.colors =  (argv.colors === 'random') ?
       [randomColor] :
       argv.colors.split(',');
   }
-  if (argv.font) {// default block
+  if (argv.font) {// default font is 'block'
     cfontsOpts.font = (argv.font === 'random') ?
       fonts[Math.floor(Math.random() * fonts.length)] : 
       argv.font;
@@ -146,7 +158,10 @@ function callRandom() {
     cfontsOpts.align = argv.align;
   }
   if (argv.background) {
+
+    // Random backgrounds could clash so...
     if (argv.background === 'random') {
+      // Filter out the backgrounds that are the same as the selected foreground.
       bkgClrs.forEach(function(color, index) {
         if (new RegExp(cfontsOpts.colors.join('|')).test(color)) {
           if (isVerbose) {
@@ -156,6 +171,7 @@ function callRandom() {
         }
       })
     }
+    // Background either to random 
     cfontsOpts.background = (argv.background === 'random') ?
       bkgClrs[Math.floor(Math.random() * bkgClrs.length)] :
       argv.background;
