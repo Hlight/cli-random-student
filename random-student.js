@@ -6,7 +6,7 @@ const argv = require('minimist')(process.argv.slice(2));
 
 const isHelpEnabled = (argv.help);
 const isResetEnabled = (argv.reset);
-const isInitialEnabled = (argv.initial);
+const isInitialEnabled = (argv.initial || !argv.fullname);
 const logFile = __dirname + '/random-student.log';
 
 // print extra console.logs
@@ -129,10 +129,12 @@ function callRandom() {
     student = student.match(/\w+\s+[A-Z]/).toString();
   }
   
-  let cfontsOpts = { align: 'left' };
+  let randomColor = clrs[Math.floor(Math.random() * clrs.length)];
+  let cfontsOpts = { align: 'left', colors: [randomColor] };
+  
   if (argv.colors) {
     cfontsOpts.colors =  (argv.colors === 'random') ?
-      [clrs[Math.floor(Math.random() * clrs.length)]] :
+      [randomColor] :
       argv.colors.split(',');
   }
   if (argv.font) {// default block
