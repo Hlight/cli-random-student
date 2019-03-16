@@ -27,7 +27,7 @@ const students = [
   "Ethan Mo",
   "Yin Lee"
 ];
-
+// module is a commonjs thing, so without it we assume this file is being loaded by a script tag in the browser.
 if (module && module.exports) {
   module.exports = students;
 }
