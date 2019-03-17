@@ -5,8 +5,9 @@ const CFonts = require('cfonts');
 const argv = require('minimist')(process.argv.slice(2));
 
 const isHelpEnabled = (argv.help);
-const isResetEnabled = (argv.reset);
+const isResetEnabled = (argv.nocache);
 const isInitialEnabled = (argv.initial || !argv.fullname);
+const isConsoleClearEnabled = (argv.clearOnCall || argv.c);
 const logFile = __dirname + '/random-student.log';
 
 // print extra console.logs
@@ -176,9 +177,20 @@ function callRandom() {
       bkgClrs[Math.floor(Math.random() * bkgClrs.length)] :
       argv.background;
   }
-  CFonts.say(student, cfontsOpts);
-  // debug
-  if (isVerbose) console.table(cfontsOpts);
+  if (isConsoleClearEnabled) {
+    console.reset();
+  }
+  // if (isConsoleClearEnabled) {
+  //   screenClear(printName)
+  // } else {
+  //   printName();
+  // }
+  printName();
+  function printName() {
+    CFonts.say(student, cfontsOpts);
+    // debug
+    if (isVerbose) console.table(cfontsOpts);
+  }
 }
 /**
  * Reset students array to original list
@@ -191,6 +203,26 @@ function reset(cb) {
     if (cb) cb();
   });
 }
+
+console.reset = function () {
+  return process.stdout.write('\033c');
+}
+/* Attempt to clear screen while still allowing user to scroll up to previous output.  Not working.
+function screenClear(cb) {
+  var exec = require('child_process').exec;
+  const shell = exec("bash clear", function (err, stdout, stderr) {
+    if (err) {
+      // should have err.code here?  
+    }
+    // console.log(stdout);
+    cb();
+  });
+
+  // dir.on('exit', function (code) {
+  //   // exit code is code
+  // });
+}
+/**/
 
 //-------------------------------------------------
 

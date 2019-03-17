@@ -17,6 +17,12 @@ Put this in your `~/.profile` file otherwise this alias won't be loaded for futu
 alias callRandom='node ~/bootcamp-random-student/random-student.js'
 ```
 
+Second alias for in-class quickness:
+
+```shell
+alias p="callRandom --clearOnCall --align right --font random"
+```
+
 ## How it works
 
 Script keeps track of history using the `random-student.log` file.
