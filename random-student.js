@@ -8,7 +8,8 @@ const isHelpEnabled = (argv.help);
 const isResetEnabled = (argv.nocache);
 const isInitialEnabled = (argv.initial || !argv.fullname);
 const isConsoleClearEnabled = (argv.clearOnCall || argv.c);
-const logFile = __dirname + '/random-student.log';
+const logFile = __dirname + 
+  (argv.logFile) ? argv.logFile : '/random-student.log';
 
 // print extra console.logs
 const isVerbose = (argv.v || argv.verbose);
@@ -78,6 +79,8 @@ if (isHelpEnabled) {
   console.log('--background random|<bkg_color>')
   console.table(bkgClrs)
   console.log('--align <left|center|right>')
+  console.log('--clearOnCall <true| >', 'clear terminal screen on call');
+  console.log(`--logFile='. / test.log' configure custom log file useful for testing`)
   return;
 }
 
@@ -180,11 +183,7 @@ function callRandom() {
   if (isConsoleClearEnabled) {
     console.reset();
   }
-  // if (isConsoleClearEnabled) {
-  //   screenClear(printName)
-  // } else {
-  //   printName();
-  // }
+
   printName();
   function printName() {
     CFonts.say(student, cfontsOpts);
@@ -207,22 +206,6 @@ function reset(cb) {
 console.reset = function () {
   return process.stdout.write('\033c');
 }
-/* Attempt to clear screen while still allowing user to scroll up to previous output.  Not working.
-function screenClear(cb) {
-  var exec = require('child_process').exec;
-  const shell = exec("bash clear", function (err, stdout, stderr) {
-    if (err) {
-      // should have err.code here?  
-    }
-    // console.log(stdout);
-    cb();
-  });
-
-  // dir.on('exit', function (code) {
-  //   // exit code is code
-  // });
-}
-/**/
 
 //-------------------------------------------------
 

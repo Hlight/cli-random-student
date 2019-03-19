@@ -26,7 +26,9 @@ alias p="callRandom --clearOnCall --align right --font random"
 ## How it works
 
 Script keeps track of history using the `random-student.log` file.
-Once all students have been called the history is cleared and the process starts over.
+Once all students have been called the history is cleared and the process starts over. 
+
+When testing the various options it is recommended to configure a test log file so as not to disrupt the order of actual in class calls.  The following command `--logFile='./test.log'` will set a custom test log file for these purposes.
 
 
 ## Defaults
@@ -54,6 +56,9 @@ Once all students have been called the history is cleared and the process starts
 
 <img src="ss-font-random.png" />
 
+- `--clearOnCall` clear terminal screen
+
+- `--logFile='./test.log'`
 ## Help
 
 - `--help` display list of color, font, background, align options.
