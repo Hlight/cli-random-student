@@ -1,20 +1,20 @@
-# class-call-random-student
+# cli-random-student
 Calls a random student from the list while ensuring all students get called.
 
-From within the `bootcamp-random-student` directory:
+From within the `cli-random-student` directory:
 
 ```shell
 # Default
 node random-student.js
 ```
 
-Or, from anywhere using a shell alias:
+Or, from anywhere using an optional shell alias:
 
 Put this in your `~/.profile` file otherwise this alias won't be loaded for future terminals. _(create this file not already present)_
 
 ```shell
-# Ensure the path below is the actual path where you cloned it to.
-alias callRandom='node ~/bootcamp-random-student/random-student.js'
+# Ensure the path below is the actual path where you downloaded it to.
+alias callRandom='node ~/cli-random-student/random-student.js'
 ```
 
 Second alias for in-class quickness:
