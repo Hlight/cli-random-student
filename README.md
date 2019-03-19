@@ -30,6 +30,7 @@ Once all students have been called the history is cleared and the process starts
 
 When testing the various options it is recommended to configure a test log file so as not to disrupt the order of actual in class calls.  The following command `--logFile='./test.log'` will set a custom test log file for these purposes.
 
+*requires default log file `random-student.log` or custom log file to exist e.g. `touch random-student.log` before first run.
 
 ## Defaults
 
