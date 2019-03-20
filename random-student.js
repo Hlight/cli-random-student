@@ -5,11 +5,12 @@ const CFonts = require('cfonts');
 const argv = require('minimist')(process.argv.slice(2));
 
 const isHelpEnabled = (argv.help);
-const isResetEnabled = (argv.nocache);
+const isResetEnabled = (argv.clearCache);
 const isInitialEnabled = (argv.initial || !argv.fullname);
 const isConsoleClearEnabled = (argv.clearOnCall || argv.c);
 const logFile = __dirname + 
-  (argv.logFile) ? argv.logFile : '/random-student.log';
+  ((argv.logFile) ? argv.logFile : '/random-student.log');
+console.log(logFile)
 
 // print extra console.logs
 const isVerbose = (argv.v || argv.verbose);
