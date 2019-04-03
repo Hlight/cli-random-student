@@ -55,6 +55,10 @@ When testing the various options it is recommended to configure a test log file 
 
 - `--font=random`
 
+- `--plan` or `-p`
+
+- `--verbose` or `-v`
+
 <img src="ss-font-random.png" />
 
 - `--clearOnCall` clear terminal screen.
@@ -65,3 +69,47 @@ When testing the various options it is recommended to configure a test log file 
 - `--help` display list of color, font, background, align options.
 
 <img src="ss-help.png" />
+
+---
+
+For spoken names use the following shell command:
+
+```shell
+
+say $(p --logFile=/test.json --p) -v Daniel
+
+```
+
+Say command English speaking voices (--voice | -v):
+
+```shell
+Alex                en_US    # Most people recognize me by my voice.
+Fred                en_US    # I sure like being inside this fancy computer
+Samantha            en_US    # Hello, my name is Samantha. I am an American-English voice.
+Victoria            en_US    # Isn't it nice to have a computer that will talk to you?
+Fiona               en-scotland # Hello, my name is Fiona. I am a Scottish-English voice.
+Daniel              en_GB    # Hello, my name is Daniel. I am a British-English voice.
+Moira               en_IE    # Hello, my name is Moira. I am an Irish-English voice.
+Veena               en_IN    # Hello, my name is Veena. I am an Indian-English voice.
+Karen               en_AU    # Hello, my name is Karen. I am an Australian-English voice.
+```
+
+
+---
+
+Complete Alias Setup
+
+Add to following alias's to your .bash_aliases file.
+
+```shell
+
+alias callRandom="node ~/Code/gitlab/Hlight/UWASEA201811FSF5/_tools/bootcamp-aarons-random-student/random-student.js"
+alias p="callRandom --align right --font random"
+alias pp="callRandom --clearOnCall --align right --font random"
+# Set say command voice e.g --voice/-v 
+alias say="say -v Daniel"
+alias pSay="p --p --fullname | say"
+alias pSayTest="p --logFile=/test.json --p --fullname | say"
+
+
+```

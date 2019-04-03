@@ -4,16 +4,18 @@ const gradient = require('gradient-string');
 const CFonts = require('cfonts');
 const argv = require('minimist')(process.argv.slice(2));
 
+// print extra console.logs
+const isVerbose = (argv.v || argv.verbose);
 const isHelpEnabled = (argv.help);
 const isResetEnabled = (argv.clearCache);
 const isInitialEnabled = (argv.initial || !argv.fullname);
 const isConsoleClearEnabled = (argv.clearOnCall || argv.c);
+const isPlainTextEnabled = (argv.plain || argv.p);
 const logFile = __dirname + 
   ((argv.logFile) ? argv.logFile : '/random-student.log');
-console.log(logFile)
-
-// print extra console.logs
-const isVerbose = (argv.v || argv.verbose);
+  
+// confirm log file location
+if (isVerbose) console.log(logFile);
 
 // cfonts configuration arrays:
 
@@ -80,8 +82,11 @@ if (isHelpEnabled) {
   console.log('--background random|<bkg_color>')
   console.table(bkgClrs)
   console.log('--align <left|center|right>')
-  console.log('--clearOnCall <true| >', 'clear terminal screen on call');
+  console.log('--clearOnCall | -c <true| >', 'clear terminal screen on call');
   console.log(`--logFile='. / test.log' configure custom log file useful for testing`)
+  console.log('--plain | -p', 'plain text output')
+  console.log('--verbose | -v', 'output extra console logs for debugging')
+
   return;
 }
 
@@ -131,66 +136,71 @@ function callRandom() {
   let student = students[Math.floor(Math.random() * students.length)];
   fs.appendFile(logFile, '\n' + student, (err) => {
     if (err) throw err;
-    // console.log('appendFile: ' + student)
+    if (isVerbose) console.log('appendFile: ' + student);
   });
   if (isInitialEnabled) {
     // Match firstname + last initial
     student = student.match(/\w+\s+[A-Z]/).toString();
   }
-  
-  /**
-   * cFonts Options defaults | arguments
-   */
-  // get color here so we can make it the default.
-  let randomColor = clrs[Math.floor(Math.random() * clrs.length)];
-  // Options for the cfonts module.
-  let cfontsOpts = { 
-    align: 'center', 
-    colors: [randomColor] 
-  };
-  
-  if (argv.colors) {
-    cfontsOpts.colors =  (argv.colors === 'random') ?
-      [randomColor] :
-      argv.colors.split(',');
-  }
-  if (argv.font) {// default font is 'block'
-    cfontsOpts.font = (argv.font === 'random') ?
-      fonts[Math.floor(Math.random() * fonts.length)] : 
-      argv.font;
-  }
-  if (argv.align) {
-    cfontsOpts.align = argv.align;
-  }
-  if (argv.background) {
 
-    // Random backgrounds could clash so...
-    if (argv.background === 'random') {
-      // Filter out the backgrounds that are the same as the selected foreground.
-      bkgClrs.forEach(function(color, index) {
-        if (new RegExp(cfontsOpts.colors.join('|')).test(color)) {
-          if (isVerbose) {
-            console.log('filtering out color ' + color + ' because font is ' + cfontsOpts.colors.toString())
-          }
-          bkgClrs.splice(index, 1);
-        }
-      })
+  // TODO: plain logic
+  if (!isPlainTextEnabled) {
+    
+    /**
+     * cFonts Options defaults | arguments
+     */
+    // get color here so we can make it the default.
+    let randomColor = clrs[Math.floor(Math.random() * clrs.length)];
+    // Options for the cfonts module.
+    let cfontsOpts = { 
+      align: 'center', 
+      colors: [randomColor] 
+    };
+    
+    if (argv.colors) {
+      cfontsOpts.colors =  (argv.colors === 'random') ?
+        [randomColor] :
+        argv.colors.split(',');
     }
-    // Background either to random 
-    cfontsOpts.background = (argv.background === 'random') ?
-      bkgClrs[Math.floor(Math.random() * bkgClrs.length)] :
-      argv.background;
-  }
-  if (isConsoleClearEnabled) {
-    console.reset();
-  }
+    if (argv.font) {// default font is 'block'
+      cfontsOpts.font = (argv.font === 'random') ?
+        fonts[Math.floor(Math.random() * fonts.length)] : 
+        argv.font;
+    }
+    if (argv.align) {
+      cfontsOpts.align = argv.align;
+    }
+    if (argv.background) {
 
-  printName();
-  function printName() {
+      // Random backgrounds could clash so...
+      if (argv.background === 'random') {
+        // Filter out the backgrounds that are the same as the selected foreground.
+        bkgClrs.forEach(function(color, index) {
+          if (new RegExp(cfontsOpts.colors.join('|')).test(color)) {
+            if (isVerbose) {
+              console.log('filtering out color ' + color + ' because font is ' + cfontsOpts.colors.toString())
+            }
+            bkgClrs.splice(index, 1);
+          }
+        })
+      }
+      // Background either to random 
+      cfontsOpts.background = (argv.background === 'random') ?
+        bkgClrs[Math.floor(Math.random() * bkgClrs.length)] :
+        argv.background;
+    }
+    if (isConsoleClearEnabled) {
+      console.reset();
+    }
+  }
+  if (isPlainTextEnabled) {
+    console.log(student)
+  } else {
     CFonts.say(student, cfontsOpts);
     // debug
     if (isVerbose) console.table(cfontsOpts);
   }
+
 }
 /**
  * Reset students array to original list
