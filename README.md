@@ -103,7 +103,7 @@ Add to following alias's to your .bash_aliases file.
 
 ```shell
 
-alias callRandom="node ~/Code/gitlab/Hlight/UWASEA201811FSF5/_tools/bootcamp-aarons-random-student/random-student.js"
+alias callRandom="node ~/Code/random-student/random-student.js"
 alias p="callRandom --align right --font random"
 alias pp="callRandom --clearOnCall --align right --font random"
 # Set say command voice e.g --voice/-v 
